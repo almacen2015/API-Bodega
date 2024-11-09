@@ -1,6 +1,8 @@
 package backend.apibodega.service.impl;
 
+import backend.apibodega.exception.CategoriaException;
 import backend.apibodega.mapper.CategoriaMapper;
+import backend.apibodega.model.dto.request.CategoriaRequestDto;
 import backend.apibodega.model.dto.response.CategoriaResponseDto;
 import backend.apibodega.model.entities.Categoria;
 import backend.apibodega.repository.CategoriaRepository;
@@ -30,7 +32,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public CategoriaResponseDto guardar(CategoriaResponseDto dto) {
+    public CategoriaResponseDto guardar(CategoriaRequestDto dto) {
         String nombre = dto.nombre();
         verificarNombre(nombre);
         Categoria categoria = mapper.toCategoria(dto);
@@ -40,7 +42,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     private void verificarNombre(String nombre) {
         if (nombre == null || nombre.isBlank() || nombre.isEmpty() || nombre.length() > 50) {
-            throw new InvalidAttributesException("Nombre invalido");
+            throw new CategoriaException(CategoriaException.NOMBRE_NO_VALIDO);
         }
     }
 }

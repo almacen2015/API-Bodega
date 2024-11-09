@@ -1,8 +1,10 @@
 package backend.apibodega.mapper;
 
+import backend.apibodega.model.dto.request.CategoriaRequestDto;
 import backend.apibodega.model.dto.response.CategoriaResponseDto;
 import backend.apibodega.model.entities.Categoria;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -13,7 +15,8 @@ public interface CategoriaMapper {
 
     List<CategoriaResponseDto> toDtos(List<Categoria> lista);
 
-    Categoria toCategoria(CategoriaResponseDto dto);
+    @Mapping(target = "id", ignore = true)
+    Categoria toCategoria(CategoriaRequestDto dto);
 
     CategoriaResponseDto toDto(Categoria entidad);
 }
