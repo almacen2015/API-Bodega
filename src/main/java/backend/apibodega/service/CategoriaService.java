@@ -9,4 +9,6 @@ public interface CategoriaService {
     List<CategoriaResponseDto> listar();
 
     CategoriaResponseDto guardar(CategoriaRequestDto dto);
+
+    CategoriaResponseDto obtenerPorId(Integer id);
 }

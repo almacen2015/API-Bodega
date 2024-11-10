@@ -23,6 +23,8 @@ public class CategoriaController {
         this.service = service;
     }
 
+    @Operation(summary = "Lista todas las categoria", description = "Lista todas las categorias")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", content = @Content(schema = @Schema(type = "array", implementation = List.class)))})
     @GetMapping
     public ResponseEntity<List<CategoriaResponseDto>> listar() {
         return new ResponseEntity<>(service.listar(), HttpStatus.OK);
@@ -33,5 +35,12 @@ public class CategoriaController {
     @PostMapping
     public ResponseEntity<CategoriaResponseDto> guardar(@RequestBody CategoriaRequestDto dto) {
         return new ResponseEntity<>(service.guardar(dto), HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Obtiene una categoria por Id", description = "Obtiene una categoria por Id")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", content = @Content(schema = @Schema(type = "array", implementation = CategoriaResponseDto.class)))})
+    @GetMapping("/obtener-id")
+    public ResponseEntity<CategoriaResponseDto> obtenerPorId(@RequestParam Integer id) {
+        return new ResponseEntity<>(service.obtenerPorId(id), HttpStatus.OK);
     }
 }

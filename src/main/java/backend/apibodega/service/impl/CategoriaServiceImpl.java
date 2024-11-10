@@ -10,8 +10,8 @@ import backend.apibodega.service.CategoriaService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import javax.naming.directory.InvalidAttributesException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
@@ -40,8 +40,27 @@ public class CategoriaServiceImpl implements CategoriaService {
         return response;
     }
 
+    @Override
+    public CategoriaResponseDto obtenerPorId(Integer id) {
+        verificarId(id);
+        Optional<Categoria> categoriaEncontrada = repository.findById(id);
+        if (categoriaEncontrada.isPresent()) {
+            CategoriaResponseDto response = mapper.toDto(categoriaEncontrada.get());
+            return response;
+        } else {
+            return null;
+        }
+    }
+
+    private void verificarId(Integer id) {
+        if (id == null || id <= 0) {
+            throw new CategoriaException(CategoriaException.ID_NO_VALIDO);
+        }
+    }
+
     private void verificarNombre(String nombre) {
-        if (nombre == null || nombre.isBlank() || nombre.isEmpty() || nombre.length() > 50) {
+        final int MAXIMO_CARACTERES = 50;
+        if (nombre == null || nombre.isBlank() || nombre.isEmpty() || nombre.length() > MAXIMO_CARACTERES) {
             throw new CategoriaException(CategoriaException.NOMBRE_NO_VALIDO);
         }
     }
