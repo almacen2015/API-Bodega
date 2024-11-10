@@ -11,4 +11,6 @@ public interface CategoriaService {
     CategoriaResponseDto guardar(CategoriaRequestDto dto);
 
     CategoriaResponseDto obtenerPorId(Integer id);
+
+    CategoriaResponseDto obtenerPorNombre(String nombre);
 }

@@ -52,6 +52,18 @@ public class CategoriaServiceImpl implements CategoriaService {
         }
     }
 
+    @Override
+    public CategoriaResponseDto obtenerPorNombre(String nombre) {
+        verificarNombre(nombre);
+        Optional<Categoria> categoriaEncontrada = repository.findByNombreIgnoreCase(nombre);
+        if (categoriaEncontrada.isPresent()) {
+            CategoriaResponseDto response = mapper.toDto(categoriaEncontrada.get());
+            return response;
+        } else {
+            return null;
+        }
+    }
+
     private void verificarId(Integer id) {
         if (id == null || id <= 0) {
             throw new CategoriaException(CategoriaException.ID_NO_VALIDO);

@@ -43,4 +43,11 @@ public class CategoriaController {
     public ResponseEntity<CategoriaResponseDto> obtenerPorId(@RequestParam Integer id) {
         return new ResponseEntity<>(service.obtenerPorId(id), HttpStatus.OK);
     }
+
+    @Operation(summary = "Obtiene una categoria por nombre", description = "Obtiene una categoria por nombre")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", content = @Content(schema = @Schema(type = "array", implementation = CategoriaResponseDto.class)))})
+    @GetMapping("/obtener-nombre")
+    public ResponseEntity<CategoriaResponseDto> obtenerPorNombre(@RequestParam String nombre) {
+        return new ResponseEntity<>(service.obtenerPorNombre(nombre), HttpStatus.OK);
+    }
 }
