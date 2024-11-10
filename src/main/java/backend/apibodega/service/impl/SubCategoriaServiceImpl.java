@@ -21,8 +21,8 @@ public class SubCategoriaServiceImpl implements SubCategoriaService {
     private final SubCategoriaRepository repository;
     private final CategoriaService categoriaService;
 
-    private SubCategoriaMapper mapper = SubCategoriaMapper.INSTANCE;
-    private CategoriaMapper mapperCategoria = CategoriaMapper.INSTANCE;
+    private final SubCategoriaMapper mapper = SubCategoriaMapper.INSTANCE;
+    private final CategoriaMapper mapperCategoria = CategoriaMapper.INSTANCE;
 
     public SubCategoriaServiceImpl(SubCategoriaRepository repository, CategoriaService categoriaService) {
         this.repository = repository;
@@ -31,7 +31,8 @@ public class SubCategoriaServiceImpl implements SubCategoriaService {
 
     @Override
     public List<SubCategoriaResponseDto> listar() {
-        return List.of();
+        List<SubCategoria> subCategorias = repository.findAll();
+        return mapper.toDtos(subCategorias);
     }
 
     @Override
