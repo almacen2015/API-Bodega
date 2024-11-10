@@ -42,6 +42,7 @@ public class CategoriaServiceImpl implements CategoriaService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public CategoriaResponseDto actualizar(CategoriaRequestDto dto, Integer id) {
         String nombre = dto.nombre();
         verificarId(id);

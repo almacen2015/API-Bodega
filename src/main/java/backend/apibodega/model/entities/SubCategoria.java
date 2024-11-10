@@ -19,7 +19,7 @@ public class SubCategoria {
     private Integer id;
 
     @Column(length = 50, nullable = false)
-    private String descripcion;
+    private String nombre;
 
     @ManyToOne
     @JoinColumn(name = "categoria_id", nullable = false)
@@ -30,11 +30,11 @@ public class SubCategoria {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SubCategoria that = (SubCategoria) o;
-        return Objects.equals(id, that.id) && Objects.equals(descripcion, that.descripcion);
+        return Objects.equals(id, that.id) && Objects.equals(nombre, that.nombre);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, descripcion);
+        return Objects.hash(id, nombre);
     }
 }
