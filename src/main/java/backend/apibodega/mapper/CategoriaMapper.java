@@ -19,4 +19,6 @@ public interface CategoriaMapper {
     Categoria toCategoria(CategoriaRequestDto dto);
 
     CategoriaResponseDto toDto(Categoria entidad);
+
+    Categoria toCategoria(CategoriaResponseDto response);
 }

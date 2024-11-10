@@ -2,6 +2,7 @@ package backend.apibodega.service.impl;
 
 import backend.apibodega.exception.CategoriaException;
 import backend.apibodega.exception.SubCategoriaException;
+import backend.apibodega.mapper.CategoriaMapper;
 import backend.apibodega.mapper.SubCategoriaMapper;
 import backend.apibodega.model.dto.request.SubCategoriaRequestDto;
 import backend.apibodega.model.dto.response.SubCategoriaResponseDto;
@@ -9,6 +10,7 @@ import backend.apibodega.model.entities.Categoria;
 import backend.apibodega.model.entities.SubCategoria;
 import backend.apibodega.repository.CategoriaRepository;
 import backend.apibodega.repository.SubCategoriaRepository;
+import backend.apibodega.service.CategoriaService;
 import backend.apibodega.service.SubCategoriaService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -20,12 +22,14 @@ import java.util.Optional;
 public class SubCategoriaServiceImpl implements SubCategoriaService {
 
     private final SubCategoriaRepository repository;
-    private final CategoriaRepository categoriaRepository;
-    private SubCategoriaMapper mapper = SubCategoriaMapper.INSTANCE;
+    private final CategoriaService categoriaService;
 
-    public SubCategoriaServiceImpl(SubCategoriaRepository repository, CategoriaRepository categoriaRepository) {
+    private SubCategoriaMapper mapper = SubCategoriaMapper.INSTANCE;
+    private CategoriaMapper mapperCategoria = CategoriaMapper.INSTANCE;
+
+    public SubCategoriaServiceImpl(SubCategoriaRepository repository, CategoriaService categoriaService) {
         this.repository = repository;
-        this.categoriaRepository = categoriaRepository;
+        this.categoriaService = categoriaService;
     }
 
     @Override
@@ -42,7 +46,7 @@ public class SubCategoriaServiceImpl implements SubCategoriaService {
         verificarId(idCategoria);
         verificarNombre(nombre);
 
-        Categoria categoria = obtenerCategoriaPorId(idCategoria);
+        Categoria categoria = mapperCategoria.toCategoria(categoriaService.obtenerPorId(idCategoria));
         SubCategoria subCategoria = SubCategoria.builder()
                 .nombre(nombre)
                 .categoria(categoria)
@@ -51,15 +55,6 @@ public class SubCategoriaServiceImpl implements SubCategoriaService {
         SubCategoriaResponseDto response = mapper.toDto(repository.save(subCategoria));
 
         return response;
-    }
-
-    private Categoria obtenerCategoriaPorId(Integer id) {
-        Optional<Categoria> categoria = categoriaRepository.findById(id);
-        if (categoria.isPresent()) {
-            return categoria.get();
-        } else {
-            throw new CategoriaException(CategoriaException.CATEGORIA_NO_ENCONTRADA);
-        }
     }
 
     private void verificarId(Integer id) {
