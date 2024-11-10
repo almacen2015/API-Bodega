@@ -14,7 +14,8 @@ public class ExceptionAdvice {
     @ExceptionHandler(CategoriaException.class)
     public ResponseEntity<?> handleCategoriaException(CategoriaException e) {
         if (Objects.equals(e.getMessage(), CategoriaException.NOMBRE_NO_VALIDO)
-                || Objects.equals(e.getMessage(), CategoriaException.ID_NO_VALIDO)) {
+                || Objects.equals(e.getMessage(), CategoriaException.ID_NO_VALIDO)
+                || Objects.equals(e.getMessage(), CategoriaException.NOMBRE_EXISTE)) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } else {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

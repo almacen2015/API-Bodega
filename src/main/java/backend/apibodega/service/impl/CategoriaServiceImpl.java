@@ -35,7 +35,30 @@ public class CategoriaServiceImpl implements CategoriaService {
     public CategoriaResponseDto guardar(CategoriaRequestDto dto) {
         String nombre = dto.nombre();
         verificarNombre(nombre);
+        verificarExistenciaNombre(nombre);
         Categoria categoria = mapper.toCategoria(dto);
+        CategoriaResponseDto response = mapper.toDto(repository.save(categoria));
+        return response;
+    }
+
+    @Override
+    public CategoriaResponseDto actualizar(CategoriaRequestDto dto, Integer id) {
+        String nombre = dto.nombre();
+        verificarId(id);
+        verificarNombre(nombre);
+
+        Optional<Categoria> categoriaEntity = repository.findById(id);
+        if (categoriaEntity.isEmpty()) {
+            throw new CategoriaException(CategoriaException.CATEGORIA_NO_ENCONTRADA);
+        }
+
+        List<Categoria> categoriaEncontradas = repository.findByNombreIgnoreCaseAndIdNot(nombre, id);
+        if (!categoriaEncontradas.isEmpty()) {
+            throw new CategoriaException(CategoriaException.NOMBRE_EXISTE);
+        }
+
+        Categoria categoria = categoriaEntity.get();
+        categoria.setNombre(nombre);
         CategoriaResponseDto response = mapper.toDto(repository.save(categoria));
         return response;
     }
@@ -61,6 +84,13 @@ public class CategoriaServiceImpl implements CategoriaService {
             return response;
         } else {
             return null;
+        }
+    }
+
+    private void verificarExistenciaNombre(String nombre) {
+        Optional<Categoria> nombreEncontrado = repository.findByNombreIgnoreCase(nombre);
+        if (nombreEncontrado.isPresent()) {
+            throw new CategoriaException(CategoriaException.NOMBRE_EXISTE);
         }
     }
 

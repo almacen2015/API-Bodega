@@ -10,6 +10,8 @@ public interface CategoriaService {
 
     CategoriaResponseDto guardar(CategoriaRequestDto dto);
 
+    CategoriaResponseDto actualizar(CategoriaRequestDto dto, Integer id);
+
     CategoriaResponseDto obtenerPorId(Integer id);
 
     CategoriaResponseDto obtenerPorNombre(String nombre);

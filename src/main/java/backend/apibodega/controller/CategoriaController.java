@@ -37,6 +37,13 @@ public class CategoriaController {
         return new ResponseEntity<>(service.guardar(dto), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Guarda una categoria", description = "Guarda una categoria")
+    @ApiResponses(value = {@ApiResponse(responseCode = "201", content = @Content(schema = @Schema(type = "array", implementation = CategoriaRequestDto.class)))})
+    @PutMapping
+    public ResponseEntity<CategoriaResponseDto> actualizar(@RequestBody CategoriaRequestDto dto, @RequestParam Integer id) {
+        return new ResponseEntity<>(service.actualizar(dto, id), HttpStatus.OK);
+    }
+
     @Operation(summary = "Obtiene una categoria por Id", description = "Obtiene una categoria por Id")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", content = @Content(schema = @Schema(type = "array", implementation = CategoriaResponseDto.class)))})
     @GetMapping("/obtener-id")
