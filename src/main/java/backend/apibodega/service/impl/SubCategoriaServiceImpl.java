@@ -78,6 +78,14 @@ public class SubCategoriaServiceImpl implements SubCategoriaService {
         return null;
     }
 
+    @Override
+    public List<SubCategoriaResponseDto> listarPorIdCategoria(Integer id) {
+        verificarId(id);
+        List<SubCategoria> subCategorias = repository.findAllByCategoriaId(id);
+        List<SubCategoriaResponseDto> response = mapper.toDtos(subCategorias);
+        return response;
+    }
+
     private void verificarId(Integer id) {
         if (id == null || id <= 0) {
             throw new SubCategoriaException(SubCategoriaException.ID_NO_VALIDO);

@@ -13,4 +13,7 @@ public interface SubCategoriaService {
     SubCategoriaResponseDto obtenerPorNombre(String nombre);
 
     SubCategoriaResponseDto obtenerPorId(Integer id);
+
+    List<SubCategoriaResponseDto> listarPorIdCategoria(Integer id);
+
 }

@@ -47,6 +47,13 @@ public class SubCategoriaController {
         return new ResponseEntity<>(service.obtenerPorId(id), HttpStatus.OK);
     }
 
+    @Operation(summary = "Lista subcategorias por categorias", description = "Lista subcategorias por categorias")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", content = @Content(schema = @Schema(type = "array", example = "List", implementation = List.class)))})
+    @GetMapping("/listar-por-categoria")
+    public ResponseEntity<List<SubCategoriaResponseDto>> listarPorIdCategoria(@RequestParam Integer id) {
+        return new ResponseEntity<>(service.listarPorIdCategoria(id), HttpStatus.OK);
+    }
+
     @Operation(summary = "Guarda una SubCategoria", description = "Guarda una SubCategoria")
     @ApiResponses(value = {@ApiResponse(responseCode = "201", content = @Content(schema = @Schema(type = "array", implementation = SubCategoriaRequestDto.class)))})
     @PostMapping
