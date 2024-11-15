@@ -9,4 +9,6 @@ public interface SubCategoriaService {
     List<SubCategoriaResponseDto> listar();
 
     SubCategoriaResponseDto guardar(SubCategoriaRequestDto dto);
+
+    SubCategoriaResponseDto obtenerPorNombre(String nombre);
 }

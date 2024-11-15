@@ -14,6 +14,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SubCategoriaServiceImpl implements SubCategoriaService {
@@ -53,6 +54,17 @@ public class SubCategoriaServiceImpl implements SubCategoriaService {
         SubCategoriaResponseDto response = mapper.toDto(repository.save(subCategoria));
 
         return response;
+    }
+
+    @Override
+    public SubCategoriaResponseDto obtenerPorNombre(String nombre) {
+        verificarNombre(nombre);
+        Optional<SubCategoria> subCtageoriaEncontrada = repository.findByNombreIgnoreCase(nombre);
+        if (subCtageoriaEncontrada.isPresent()) {
+            SubCategoriaResponseDto response = mapper.toDto(subCtageoriaEncontrada.get());
+            return response;
+        }
+        return null;
     }
 
     private void verificarId(Integer id) {
