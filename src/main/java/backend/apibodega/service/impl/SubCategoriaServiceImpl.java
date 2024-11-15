@@ -67,6 +67,17 @@ public class SubCategoriaServiceImpl implements SubCategoriaService {
         return null;
     }
 
+    @Override
+    public SubCategoriaResponseDto obtenerPorId(Integer id) {
+        verificarId(id);
+        Optional<SubCategoria> subCategoriaEncontrada = repository.findById(id);
+        if (subCategoriaEncontrada.isPresent()) {
+            SubCategoriaResponseDto response = mapper.toDto(subCategoriaEncontrada.get());
+            return response;
+        }
+        return null;
+    }
+
     private void verificarId(Integer id) {
         if (id == null || id <= 0) {
             throw new SubCategoriaException(SubCategoriaException.ID_NO_VALIDO);

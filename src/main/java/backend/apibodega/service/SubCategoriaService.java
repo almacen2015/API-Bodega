@@ -11,4 +11,6 @@ public interface SubCategoriaService {
     SubCategoriaResponseDto guardar(SubCategoriaRequestDto dto);
 
     SubCategoriaResponseDto obtenerPorNombre(String nombre);
+
+    SubCategoriaResponseDto obtenerPorId(Integer id);
 }
