@@ -10,6 +10,8 @@ public interface SubCategoriaService {
 
     SubCategoriaResponseDto guardar(SubCategoriaRequestDto dto);
 
+    SubCategoriaResponseDto actualizar(SubCategoriaRequestDto dto, Integer id);
+
     SubCategoriaResponseDto obtenerPorNombre(String nombre);
 
     SubCategoriaResponseDto obtenerPorId(Integer id);

@@ -1,8 +1,6 @@
 package backend.apibodega.controller;
 
-import backend.apibodega.model.dto.request.CategoriaRequestDto;
 import backend.apibodega.model.dto.request.SubCategoriaRequestDto;
-import backend.apibodega.model.dto.response.CategoriaResponseDto;
 import backend.apibodega.model.dto.response.SubCategoriaResponseDto;
 import backend.apibodega.service.SubCategoriaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -59,5 +57,12 @@ public class SubCategoriaController {
     @PostMapping
     public ResponseEntity<SubCategoriaResponseDto> guardar(@RequestBody SubCategoriaRequestDto dto) {
         return new ResponseEntity<>(service.guardar(dto), HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Actualizar una SubCategoria", description = "Actualizar una SubCategoria")
+    @ApiResponses(value = {@ApiResponse(responseCode = "201", content = @Content(schema = @Schema(type = "array", implementation = SubCategoriaRequestDto.class)))})
+    @PutMapping
+    public ResponseEntity<SubCategoriaResponseDto> actualizar(@RequestBody SubCategoriaRequestDto dto, @RequestParam Integer id) {
+        return new ResponseEntity<>(service.actualizar(dto, id), HttpStatus.OK);
     }
 }

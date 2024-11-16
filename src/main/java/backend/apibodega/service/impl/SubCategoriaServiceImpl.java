@@ -44,6 +44,10 @@ public class SubCategoriaServiceImpl implements SubCategoriaService {
 
         verificarId(idCategoria);
         verificarNombre(nombre);
+        SubCategoriaResponseDto nombreEncontrado = obtenerPorNombre(nombre);
+        if (nombreEncontrado != null) {
+            throw new SubCategoriaException(SubCategoriaException.NOMBRE_EXISTE);
+        }
 
         Categoria categoria = mapperCategoria.toCategoria(categoriaService.obtenerPorId(idCategoria));
         SubCategoria subCategoria = SubCategoria.builder()
@@ -54,6 +58,36 @@ public class SubCategoriaServiceImpl implements SubCategoriaService {
         SubCategoriaResponseDto response = mapper.toDto(repository.save(subCategoria));
 
         return response;
+    }
+
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public SubCategoriaResponseDto actualizar(SubCategoriaRequestDto dto, Integer id) {
+        Integer idCategoria = dto.idCategoria();
+        String nombre = dto.nmobre();
+
+        verificarId(idCategoria);
+        verificarNombre(nombre);
+
+        List<SubCategoria> nombresEncontrados = repository.findByNombreIgnoreCaseAndIdNot(nombre, id);
+        if (!nombresEncontrados.isEmpty()) {
+            throw new SubCategoriaException(SubCategoriaException.NOMBRE_EXISTE);
+        }
+
+        Optional<SubCategoria> subCategoriaActualizar = repository.findById(id);
+        if (subCategoriaActualizar.isPresent()) {
+            SubCategoria subCategoria = subCategoriaActualizar.get();
+            Categoria categoria = mapperCategoria.toCategoria(categoriaService.obtenerPorId(idCategoria));
+
+            subCategoria.setNombre(nombre);
+            subCategoria.setCategoria(categoria);
+
+            SubCategoriaResponseDto response = mapper.toDto(repository.save(subCategoria));
+            return response;
+        }
+
+        throw new SubCategoriaException(SubCategoriaException.SUBCATEGORIA_NO_ENCONTRADA);
+
     }
 
     @Override
@@ -94,7 +128,7 @@ public class SubCategoriaServiceImpl implements SubCategoriaService {
 
     private void verificarNombre(String nombre) {
         final int MAXIMO_CARACTERES = 50;
-        if (nombre == null || nombre.isBlank() || nombre.isEmpty() || nombre.length() > MAXIMO_CARACTERES) {
+        if (nombre == null || nombre.isBlank() || nombre.length() > MAXIMO_CARACTERES) {
             throw new SubCategoriaException(SubCategoriaException.NOMBRE_NO_VALIDO);
         }
     }

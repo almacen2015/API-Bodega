@@ -1,5 +1,6 @@
 package backend.apibodega.repository;
 
+import backend.apibodega.model.entities.Categoria;
 import backend.apibodega.model.entities.SubCategoria;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,4 +11,6 @@ public interface SubCategoriaRepository extends JpaRepository<SubCategoria, Inte
     Optional<SubCategoria> findByNombreIgnoreCase(String nombre);
 
     List<SubCategoria> findAllByCategoriaId(Integer id);
+
+    List<SubCategoria> findByNombreIgnoreCaseAndIdNot(String nombre, Integer id);
 }
